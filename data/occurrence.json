@@ -1,0 +1,9 @@
+[
+  { "id": "O001", "aluno_id": "A001", "data": "2026-09-10", "tipo": "comportamento", "descricao": "Conflito com colega durante intervalo." },
+  { "id": "O002", "aluno_id": "A001", "data": "2026-10-05", "tipo": "comportamento", "descricao": "Saiu da sala sem autorização." },
+  { "id": "O003", "aluno_id": "A003", "data": "2026-09-18", "tipo": "comportamento", "descricao": "Não realizou atividades por três aulas consecutivas." },
+  { "id": "O004", "aluno_id": "A003", "data": "2026-10-02", "tipo": "comportamento", "descricao": "Dormindo em aula repetidamente." },
+  { "id": "O005", "aluno_id": "A005", "data": "2026-10-07", "tipo": "comportamento", "descricao": "Relatou cansaço excessivo; possível trabalho noturno." },
+  { "id": "O006", "aluno_id": "A007", "data": "2026-09-22", "tipo": "comportamento", "descricao": "Não trouxe material escolar por duas semanas." },
+  { "id": "O007", "aluno_id": "A007", "data": "2026-10-12", "tipo": "comportamento", "descricao": "Aluno relatou que precisa ajudar em casa." }
+]

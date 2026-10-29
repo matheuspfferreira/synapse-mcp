@@ -1,0 +1,18 @@
+[
+  { "id": "F001", "aluno_id": "A001", "data": "2026-10-01", "presente": false },
+  { "id": "F002", "aluno_id": "A001", "data": "2026-10-06", "presente": false },
+  { "id": "F003", "aluno_id": "A001", "data": "2026-10-08", "presente": false },
+  { "id": "F004", "aluno_id": "A001", "data": "2026-10-13", "presente": false },
+  { "id": "F005", "aluno_id": "A001", "data": "2026-10-15", "presente": false },
+  { "id": "F006", "aluno_id": "A002", "data": "2026-10-06", "presente": false },
+  { "id": "F007", "aluno_id": "A002", "data": "2026-10-13", "presente": false },
+  { "id": "F008", "aluno_id": "A003", "data": "2026-10-07", "presente": false },
+  { "id": "F009", "aluno_id": "A003", "data": "2026-10-09", "presente": false },
+  { "id": "F010", "aluno_id": "A003", "data": "2026-10-14", "presente": false },
+  { "id": "F011", "aluno_id": "A003", "data": "2026-10-16", "presente": false },
+  { "id": "F012", "aluno_id": "A005", "data": "2026-10-02", "presente": false },
+  { "id": "F013", "aluno_id": "A005", "data": "2026-10-09", "presente": false },
+  { "id": "F014", "aluno_id": "A007", "data": "2026-10-06", "presente": false },
+  { "id": "F015", "aluno_id": "A007", "data": "2026-10-13", "presente": false },
+  { "id": "F016", "aluno_id": "A007", "data": "2026-10-20", "presente": false }
+]
