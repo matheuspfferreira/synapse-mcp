@@ -1,57 +1,96 @@
-# Hackathon 2026 — Contexto do Projeto
+# Synapse MCP — Mapa de implementação
 
-## Evento
-UniCesumar + Elotech + Axion. Tema: "Educação que chega: tecnologia contra as barreiras do aprender".
+## Contexto
+Servidor MCP educacional que expõe dados fictícios da Elotech como camada de contexto
+para ferramentas de IA, orientando coordenadores pedagógicos na prevenção de evasão escolar.
+Lema: conectar soluções que já existem.
 
-## Desafio escolhido
-**Desafio 1 — Antes que seja tarde: evasão e abandono escolar.**
+---
 
-Pergunta-guia: como perceber os sinais de abandono a tempo e direcionar o apoio certo para cada estudante?
+## Stack
+- Python + `mcp[cli]` (SDK oficial Anthropic)
+- Dados em memória carregados de arquivos JSON fixos
+- Transporte: stdio
+- Sem banco de dados, sem framework web
 
-## Ideia-chave
-O problema não é falta de dados — escolas já têm frequência, notas e ocorrências. O problema é que esses dados chegam fragmentados e tarde demais, e o coordenador pedagógico não sabe o que fazer com eles: qual causa investigar, quem contatar, qual abordagem usar.
+---
 
-A solução não é mais um painel de alertas. É **infraestrutura de contexto**: um servidor MCP (Model Context Protocol) que estrutura os dados da Elotech e os disponibiliza para qualquer ferramenta de IA raciocinar sobre eles — orientando o coordenador a agir, não apenas a enxergar o risco.
+## Mapa de dependências
 
-**Lema: conectar soluções que já existem.**
+### 1. `resource/CONTRACT.md` ← sem dependência
+Regras de negócio em linguagem natural expostas como MCP Resource.
+O modelo lê este arquivo antes de usar qualquer tool.
 
-## Como chegamos aqui
-Partimos da pergunta que o desafio não faz diretamente: depois que o risco é identificado, o que acontece? Percebemos que a detecção já existe — o que falta é apoio estruturado para a ação. Investigando a rotina do coordenador, encontramos alguém sem contexto histórico e sem registro do que funcionou. O servidor MCP é a peça que faltava entre o dado bruto e a ação orientada.
+Definir:
+- Critérios de classificação de risco (alto / médio / baixo)
+- Regras de sugestão de ação por perfil de risco
+- Restrições éticas (IA orienta, coordenador decide)
 
-## Nome do projeto
-**Synapse** — ponto de conexão entre dois elementos. Ecoa a ponte entre os dados da Elotech e qualquer ferramenta de IA via servidor MCP.
+---
 
-## Arquitetura técnica
+### 2. `loader.py` ← depende dos arquivos `data/*.json`
+Carrega os quatro JSONs na inicialização e os mantém em memória.
+Exporta quatro listas globais usadas pelos módulos de tool.
 
-**Linguagem:** Python  
-**SDK:** `mcp` (Model Context Protocol SDK oficial da Anthropic para Python)  
-**Dados:** SQLite local com dados fictícios simulando o schema da Elotech  
-**Transporte:** stdio (padrão para integração com Claude Desktop e outros clientes MCP)
+Implementar:
+- `load_students()` → lista de alunos
+- `load_attendance()` → lista de registros de frequência
+- `load_grades()` → lista de notas
+- `load_occurrences()` → lista de ocorrências
 
-### Estrutura de pastas
-```
-synapse-mcp/
-├── main.py              # entrypoint do servidor MCP
-├── data/
-│   └── seed.sql         # dados fictícios (alunos, frequência, notas, ocorrências)
-├── db.py                # conexão e queries SQLite
-├── tools/
-│   ├── alunos.py        # ferramentas de consulta de alunos em risco
-│   ├── historico.py     # histórico por aluno
-│   └── intervencoes.py  # registro e consulta de intervenções
-└── requirements.txt
-```
+---
 
-### Ferramentas MCP (tools)
-- `get_alunos_em_risco(turma, periodo)` — lista alunos com padrão de risco por turma
-- `get_historico_aluno(aluno_id)` — frequência, notas e ocorrências de um aluno
-- `registrar_intervencao(aluno_id, tipo, descricao)` — salva ação tomada pelo coordenador
-- `get_intervencoes(aluno_id)` — histórico de intervenções anteriores
+### 3. `tool/student.py` ← depende de `loader.py`
+Retorna alunos em risco filtrando por turma e período.
+Aplica as regras de classificação definidas no CONTRACT.
 
-### Fluxo
-Cliente MCP (ex: Claude Desktop) → servidor Synapse → SQLite (dados Elotech simulados)
+Implementar:
+- `get_at_risk_students(classroom, period)` → lista de alunos com nível de risco
 
-## Restrições do regulamento
-- Dados: apenas fictícios ou públicos abertos (LGPD)
-- IA como apoio — contribuição autoral da equipe é obrigatória
-- Solução deve ser viável para redes de ensino reais
+---
+
+### 4. `tool/history.py` ← depende de `loader.py`
+Agrega o histórico completo de um aluno: frequência, notas e ocorrências.
+
+Implementar:
+- `get_student_history(student_id)` → dict com frequência, notas e ocorrências do aluno
+
+---
+
+### 5. `tool/intervention.py` ← depende de `loader.py`
+Registra e consulta intervenções. Como não há banco de dados,
+intervenções são mantidas em uma lista em memória durante a sessão.
+
+Implementar:
+- `register_intervention(student_id, type, description)` → confirma registro
+- `get_interventions(student_id)` → lista de intervenções registradas
+
+---
+
+### 6. `main.py` ← depende de todos os módulos acima
+Entrypoint do servidor. Registra tools e resources no app MCP.
+
+Implementar:
+- Instanciar `FastMCP("synapse")`
+- Registrar resource: `CONTRACT.md`
+- Registrar tools: `get_at_risk_students`, `get_student_history`,
+  `register_intervention`, `get_interventions`
+- Chamar `loader` na inicialização para carregar dados em memória
+
+---
+
+## Ordem de implementação sugerida
+1. `resource/CONTRACT.md`
+2. `loader.py`
+3. `tool/student.py`
+4. `tool/history.py`
+5. `tool/intervention.py`
+6. `main.py`
+
+---
+
+## Critério de pronto
+- `mcp dev main.py` sobe sem erro
+- Claude Desktop conecta ao servidor via stdio
+- As quatro tools respondem com dados fictícios coerentes
+- O model lê o CONTRACT antes de sugerir ações
