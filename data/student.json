@@ -1,10 +1,10 @@
 [
-  { "id": "A001", "nome": "Lucas Ferreira", "turma": "8A", "ano": 2026, "turno": "matutino" },
-  { "id": "A002", "nome": "Mariana Souza", "turma": "8A", "ano": 2026, "turno": "matutino" },
-  { "id": "A003", "nome": "João Pedro Lima", "turma": "8B", "ano": 2026, "turno": "vespertino" },
-  { "id": "A004", "nome": "Ana Clara Mendes", "turma": "8B", "ano": 2026, "turno": "vespertino" },
-  { "id": "A005", "nome": "Gabriel Rocha", "turma": "9A", "ano": 2026, "turno": "matutino" },
-  { "id": "A006", "nome": "Beatriz Oliveira", "turma": "9A", "ano": 2026, "turno": "matutino" },
-  { "id": "A007", "nome": "Rafael Costa", "turma": "9B", "ano": 2026, "turno": "vespertino" },
-  { "id": "A008", "nome": "Isabela Martins", "turma": "9B", "ano": 2026, "turno": "vespertino" }
+  { "id": "A001", "nome": "Lucas Ferreira",    "turma": "8A", "ano": 2026, "turno": "matutino",   "coordinator_email": "coord.matutino@elotech.edu.br" },
+  { "id": "A002", "nome": "Mariana Souza",     "turma": "8A", "ano": 2026, "turno": "matutino",   "coordinator_email": "coord.matutino@elotech.edu.br" },
+  { "id": "A003", "nome": "João Pedro Lima",   "turma": "8B", "ano": 2026, "turno": "vespertino", "coordinator_email": "coord.vespertino@elotech.edu.br" },
+  { "id": "A004", "nome": "Ana Clara Mendes",  "turma": "8B", "ano": 2026, "turno": "vespertino", "coordinator_email": "coord.vespertino@elotech.edu.br" },
+  { "id": "A005", "nome": "Gabriel Rocha",     "turma": "9A", "ano": 2026, "turno": "matutino",   "coordinator_email": "coord.matutino@elotech.edu.br" },
+  { "id": "A006", "nome": "Beatriz Oliveira",  "turma": "9A", "ano": 2026, "turno": "matutino",   "coordinator_email": "coord.matutino@elotech.edu.br" },
+  { "id": "A007", "nome": "Rafael Costa",      "turma": "9B", "ano": 2026, "turno": "vespertino", "coordinator_email": "coord.vespertino@elotech.edu.br" },
+  { "id": "A008", "nome": "Isabela Martins",   "turma": "9B", "ano": 2026, "turno": "vespertino", "coordinator_email": "coord.vespertino@elotech.edu.br" }
 ]
